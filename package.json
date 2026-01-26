@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/Porico94/fullstack-javascript-project-139/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Porico94/fullstack-javascript-project-139/actions)",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "start-server ./frontend/build"
-  },
+    "start": "start-server",
+    "build": "cd frontend && npm install && npm run build && cd .. && cp -r frontend/build ./build"
+  },  
   "keywords": [],
   "author": "",
   "license": "ISC",
