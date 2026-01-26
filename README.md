@@ -7,7 +7,7 @@ Aplicación de chat en tiempo real construida con React y Redux Toolkit Query.
 
 ## 🚀 Demo en Vivo
 
-[Ver aplicación desplegada](fullstack-javascript-project-139-production.up.railway.app)
+[Ver aplicación desplegada](https://fullstack-javascript-project-139-production.up.railway.app/)
 
 ## 🛠️ Desarrollo Local
 
