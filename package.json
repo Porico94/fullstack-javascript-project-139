@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "build": "cd frontend && npm install && npm run build",
-    "start": "node node_modules/@hexlet/chat-server/bin/index.js ./frontend/build"
-  },  
+    "start": "node node_modules/@hexlet/chat-server/bin/index.js ./frontend/build",
+    "dev": "cd frontend && npm start"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
