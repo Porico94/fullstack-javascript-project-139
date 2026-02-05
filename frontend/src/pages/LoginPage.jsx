@@ -1,30 +1,30 @@
+import { useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import AuthContext from '../contexts/AuthContext';
 
 const LoginPage = () => {
-  // Esquema de validación con Yup
-  const validationSchema = Yup.object({
-    username: Yup.string()
-      .min(3, 'El nombre de usuario debe tener al menos 3 caracteres')
-      .max(20, 'El nombre de usuario debe tener máximo 20 caracteres')
-      .required('El nombre de usuario es obligatorio'),
-    password: Yup.string()
-      .min(6, 'La contraseña debe tener al menos 6 caracteres')
-      .required('La contraseña es obligatoria'),
-  });
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  // Configuración de Formik
   const formik = useFormik({
-    initialValues: {
-      username: '',
-      password: '',
-    },
-    validationSchema,
-    onSubmit: (values) => {
-      // Por ahora solo mostramos en consola
-      console.log('Formulario enviado:', values);
-      // TODO: Implementar autenticación
-    },
+    initialValues: {username: '', password: ''},
+    validationSchema: Yup.object({
+      username: Yup.string().required('Obligatorio'),
+      password: Yup.string().required('Obligatorio'),
+    }),
+    onSubmit: async (values, {setErrors, setSubmitting}) => {
+      const result = await login(values.username, values.password);
+
+      if (result.success) {
+        navigate('/');
+      } else {
+        setErrors({ password: result.message});
+      }
+
+      setSubmitting(false);
+    }
   });
 
   return (
