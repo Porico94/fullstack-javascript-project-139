@@ -26,7 +26,10 @@ const messagesSlice = createSlice ({
     },
     reducers: {
         addMessage: (state, action) => {
-            state.messages.push(action.payload);
+            const exists = state.messages.find(msg => msg.id === action.payload.id);
+            if(!exists) {
+                state.messages.push(action.payload);
+            }            
         },
     },
     extraReducers: (builder) => {
@@ -49,7 +52,7 @@ const messagesSlice = createSlice ({
             })
             .addCase(sendMessage.fulfilled, (state, action) => {
                 state.loading = false;
-                state.messages.push(action.payload);
+                //state.messages.push(action.payload);
             })
             .addCase(sendMessage.rejected, (state, action) => {
                 state.loading = false;

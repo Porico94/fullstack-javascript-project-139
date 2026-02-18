@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchChannels, setCurrentChannel } from '../store/slices/channelsSlice';
 import { fetchMessages, sendMessage } from '../store/slices/messagesSlice';
-import { useContext } from 'react';
 import AuthContext from '../contexts/AuthContext';
-
+import { useContext } from 'react';
+import { useSocket } from '../hooks/useSocket';
 
 const ChatPage = () => {
   const dispatch = useDispatch();
   const { user } = useContext(AuthContext);
+
+  useSocket();
 
   const { channels, currentChannelId, loading: channelsLoading } = useSelector((state) => state.channels);
   const { messages, loading: messagesLoading } = useSelector((state) => state.messages);
