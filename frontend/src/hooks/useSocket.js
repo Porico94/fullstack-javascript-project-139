@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import io from 'socket.io-client';
 import { addMessage } from '../store/slices/messagesSlice';
-import { addChannel, removeChannel } from '../store/slices/channelsSlice';
+import { addChannel, removeChannel, updateChannel } from '../store/slices/channelsSlice';
 
 let socket = null;
 
@@ -34,6 +34,11 @@ export const useSocket = () => {
             dispatch(removeChannel(id));
         });
 
+        socket.on('renameChannel', (channel) => {
+            console.log('Canal renombrado:', channel.name);
+            dispatch(updateChannel(channel));
+        })
+
         socket.on('disconnect', () => {
             console.log('Desconectado');
         });
@@ -43,6 +48,7 @@ export const useSocket = () => {
         });
 
         return () => {
+            console.log('Cerrando conexión webSocket...');
             socket.disconnect();
         };
     }, [dispatch]);
