@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { useFormik } from 'formik';
+import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../contexts/AuthContext';
@@ -81,6 +82,12 @@ const LoginPage = () => {
           >
             Iniciar Sesión
           </button>
+          <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+            <span>¿No tienes cuenta? </span>
+            <Link to="/signup" style={{ color: '#0066cc' }}>
+              Regístrate
+            </Link>
+          </div>
         </form>
       </div>
     </div>

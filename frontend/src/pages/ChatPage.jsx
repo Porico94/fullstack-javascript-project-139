@@ -79,7 +79,7 @@ const ChatPage = () => {
   const currentChannel = channels.find(ch => ch.id === currentChannelId) || channels[0];
 
   return (
-    <div style={{ display: 'flex', height: '100vh' }}>
+    <div style={{ display: 'flex', height: 'calc(100vh - 60px)' }}>
       <div style={{
         width: '250px',
         borderRight: '1px solid #ccc',

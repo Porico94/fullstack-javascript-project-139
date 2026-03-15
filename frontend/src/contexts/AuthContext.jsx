@@ -53,6 +53,32 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const signup = async (username, password) => {
+        try {
+            const response = await axios.post('/api/v1/signup', {username, password});
+
+            const { token } = response.data;
+
+            localStorage.setItem('token', token);
+            setUser({username});
+            setLoggedIn(true);
+            return {success: true};
+        } catch (error) {
+            console.error('Error en signup:', error);
+            if (error.response?.status === 409) {
+                return {
+                    success: false,
+                    message: `Ya existe el usuario ${username}`
+                };
+            }
+
+            return {
+                success: false,
+                message: 'Error de conexion. Intente de nuevo'
+            };
+        }
+    };
+
     const logout = () => {
         localStorage.removeItem('token');
         setUser(null);
@@ -63,6 +89,7 @@ export const AuthProvider = ({ children }) => {
         user,
         login,
         logout,
+        signup,
         loggedIn,
         checkAuth,
         loading,   
