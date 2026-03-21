@@ -9,8 +9,10 @@ import ChannelItem from "../components/ChannelItem";
 import AddChannelModal from "../components/modals/AddChannelModal";
 import DeleteChannelModal from "../components/modals/DeleteChannelModal";
 import RenameChannelModal from "../components/modals/RenameChannelModal";
+import { useTranslation } from "react-i18next";
 
 const ChatPage = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { user } = useContext(AuthContext);
 
@@ -52,7 +54,7 @@ const ChatPage = () => {
       setMessageText('');
     } catch (error) {
       console.error('Error al enviar mensaje:', error);
-      alert('Error al enviar mensaje. Intenta de nuevo.');
+      alert(t('chat.errorSending'));
     } finally {
       setSending(false);
     }
@@ -71,7 +73,7 @@ const ChatPage = () => {
   if (channelsLoading || messagesLoading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <div>Cargando chat...</div>
+        <div>{t('chat.loading')}</div>
       </div>
     );
   }
@@ -97,8 +99,7 @@ const ChatPage = () => {
         <Button
           variant="primary"
           size="sm"
-          onClick={() => {
-            console.log('Abriendo modal...');
+          onClick={() => {            
             setShowAddModal(true);
           }}
         >
@@ -124,7 +125,7 @@ const ChatPage = () => {
         {/* Header con nombre del canal */}
         <div style={{padding: '1rem', borderBottom: '1px solid #ccc', backgroundColor: '#f5f5f5'}}>
           <h2 style={{margin: 0}}>
-            # {channelsLoading ? 'Cargando...' : (currentChannel?.name || 'Canal')}
+            # {channelsLoading ? t('chat.chats') : (currentChannel?.name || 'Canal')}
           </h2>
         </div>
 
@@ -132,7 +133,7 @@ const ChatPage = () => {
         <div style={{ flex: 1, overflowY: 'auto', padding: '1rem' }}>
           {currentMessages.length === 0 ? (
             <p style={{ color: '#999', textAlign: 'center', marginTop: '2rem'}}>
-              No hay mensajes en este canal.
+              {t('chat.noMessages')}.
             </p>
           ) : (
             currentMessages.map((message) => (
@@ -152,14 +153,14 @@ const ChatPage = () => {
         {/* Formulario de envío */}
         <form onSubmit={handleSubmit} style={{ padding: '1rem', borderTop: '1px solid #ccc', display: 'flex', gap: '0.5rem'}}>
           <input type='text' value={messageText} onChange={(e)=> setMessageText(e.target.value)}
-            placeholder="Escribe un mensaje..." disabled={sending}
+            placeholder={t('chat.messagePlaceholder')} disabled={sending}
             style={{flex: 1, padding: '0.75rem', fontSize: '1rem', border: '1px solid #ccc', borderRadius: '4px', outline: 'none'}}
           />
           <button type='submit' disabled={sending || !messageText.trim()}
             style={{padding: '0.75rem 1.5rem', fontSize: '1rem', backgroundColor: sending || !messageText.trim() ? '#ccc' : '#0066cc',
               color: 'white', border: 'none', borderRadius: '4px', cursor: sending || !messageText.trim() ? 'not-allowed' : 'pointer', fontWeight: '600'}}
           >
-            {sending ? 'Enviando...' : 'Enviar'}
+            {sending ? t('common.sending') : t('common.send')}
           </button>
         </form>
       </div>

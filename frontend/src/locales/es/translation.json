@@ -1,0 +1,100 @@
+{
+  "common": {
+    "login": "Iniciar sesión",
+    "signup": "Registrarse",
+    "cancel": "Cancelar",
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "loading": "Cargando",
+    "send": "Enviar",
+    "sending": "Enviando",
+    "delete": "Eliminar",
+    "deleting": "Eliminando",
+    "rename": "Renombrar",
+    "renaming": "Renombrando",
+    "create": "Crear",
+    "creating": "Creando"
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "usernamePlaceholder": "Tu nombre de usuario",
+    "passwordPlaceholder": "Tu contraseña",
+    "submitButton": "Iniciar sesión",
+    "noAccount": "¿No tienes cuenta?",
+    "signupLink": "Regístrate",
+    "errors": {
+      "required": "Obligatorio",
+      "invalidCredentials": "Usuario o contraseña incorrectos",
+      "connectionError": "Error de conexión. Intente de nuevo"
+    }
+  },
+  "signup": {
+    "title": "Registro",
+    "usernamePlaceholder": "Tu nombre de usuario",
+    "passwordPlaceholder": "Tu contraseña",
+    "confirmPasswordLabel": "Confirmar contraseña",
+    "confirmPasswordPlaceholder": "Confirma tu contraseña",
+    "submitButton": "Registrarse",
+    "submitting": "Registrando...",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "loginLink": "Iniciar sesión",
+    "errors": {
+      "usernameTooShort": "El nombre debe tener al menos 3 caracteres",
+      "usernameTooLong": "El nombre debe tener máximo 20 caracteres",
+      "usernameRequired": "El nombre de usuario es obligatorio",
+      "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
+      "passwordRequired": "La contraseña es obligatoria",
+      "passwordsMustMatch": "Las contraseñas deben coincidir",
+      "confirmPasswordRequired": "Confirma tu contraseña",
+      "userExists": "Ya existe el usuario {{username}}",
+      "connectionError": "Error de conexión. Intente de nuevo"
+    }
+  },
+  "chat": {
+    "loading": "Cargando chat...",
+    "channels": "Canales",
+    "noMessages": "No hay mensajes en este canal",
+    "messagePlaceholder": "Escribe un mensaje...",
+    "errorSending": "Error al enviar mensaje. Intenta de nuevo."
+  },
+  "addChannelModal": {
+    "title": "Agregar canal",
+    "channelNameLabel": "Nombre del canal",
+    "channelNamePlaceholder": "nombre-del-canal",
+    "errors": {
+      "nameEmpty": "El nombre no puede estar vacío",
+      "nameExists": "Ya existe un canal con ese nombre",
+      "createError": "Error al crear canal"
+    }
+  },
+  "renameChannelModal": {
+    "title": "Renombrar canal",
+    "channelNameLabel": "Nombre del canal",
+    "errors": {
+      "nameEmpty": "El nombre no puede estar vacío",
+      "nameExists": "Ya existe un canal con ese nombre",
+      "renameError": "Error al renombrar canal"
+    }
+  },
+  "deleteChannelModal": {
+    "title": "Eliminar canal",
+    "confirmMessage": "¿Estás seguro de que deseas eliminar el canal #{{name}}?",
+    "warning": "Esta acción no se puede deshacer.",
+    "errors": {
+      "deleteError": "Error al eliminar canal"
+    }
+  },
+  "channelItem": {
+    "rename": "Renombrar",
+    "delete": "Eliminar"
+  },
+  "navbar": {
+    "chat": "Chat",
+    "logout": "Cerrar sesión"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "message": "Esta página no existe",
+    "backToHome": "Volver al inicio"
+  }
+}

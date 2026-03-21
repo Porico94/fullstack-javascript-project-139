@@ -1,15 +1,18 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const NotFoundPage = () => {
+  const { t } = useTranslation();
+
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>404</h1>
-      <p style={styles.subtitle}>Página no encontrada</p>
+      <p style={styles.subtitle}>{t('notFound.title')}</p>
       <p style={styles.text}>
-        La página que buscas no existe.
+        {t('notFound.message')}
       </p>
       <Link to="/" style={styles.link}>
-        Volver al inicio
+        {t('notFound.backToHome')}
       </Link>
     </div>
   );

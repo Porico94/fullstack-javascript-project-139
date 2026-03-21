@@ -42,13 +42,13 @@ export const AuthProvider = ({ children }) => {
             if (error.response?.status === 401) {
                 return {
                     success: false,
-                    message: 'Usuario o contraseña incorrectos'
+                    errorCode: 'INVALID_CREDENTIALS'
                 };
             }
 
             return {
                 success: false,
-                message: 'Error de conexion. Intente de nuevo'
+                errorCode: 'CONNECTION_ERROR'
             };
         }
     };
@@ -68,13 +68,14 @@ export const AuthProvider = ({ children }) => {
             if (error.response?.status === 409) {
                 return {
                     success: false,
-                    message: `Ya existe el usuario ${username}`
+                    errorCode: 'USER_EXISTS',
+                    username
                 };
             }
 
             return {
                 success: false,
-                message: 'Error de conexion. Intente de nuevo'
+                errorCode: 'CONNECTION_ERROR'
             };
         }
     };

@@ -1,0 +1,100 @@
+{
+  "common": {
+    "login": "Login",
+    "signup": "Sign up",
+    "cancel": "Cancel",
+    "username": "Username",
+    "password": "Password",
+    "loading": "Loading",
+    "send": "Send",
+    "sending": "Sending",
+    "delete": "Delete",
+    "deleting": "Deleting",
+    "rename": "Rename",
+    "renaming": "Renaming",
+    "create": "Create",
+    "creating": "Creating"
+  },
+  "login": {
+    "title": "Login",
+    "usernamePlaceholder": "Your username",
+    "passwordPlaceholder": "Your password",
+    "submitButton": "Sign in",
+    "noAccount": "Don't have an account?",
+    "signupLink": "Sign up",
+    "errors": {
+      "required": "Required",
+      "invalidCredentials": "Invalid username or password",
+      "connectionError": "Connection error. Please try again"
+    }
+  },
+  "signup": {
+    "title": "Sign up",
+    "usernamePlaceholder": "Your username",
+    "passwordPlaceholder": "Your password",
+    "confirmPasswordLabel": "Confirm password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "submitButton": "Sign up",
+    "submitting": "Signing up...",
+    "hasAccount": "Already have an account?",
+    "loginLink": "Sign in",
+    "errors": {
+      "usernameTooShort": "Username must be at least 3 characters",
+      "usernameTooLong": "Username must be at most 20 characters",
+      "usernameRequired": "Username is required",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "passwordRequired": "Password is required",
+      "passwordsMustMatch": "Passwords must match",
+      "confirmPasswordRequired": "Please confirm your password",
+      "userExists": "User {{username}} already exists",
+      "connectionError": "Connection error. Please try again"
+    }
+  },
+  "chat": {
+    "loading": "Loading chat...",
+    "channels": "Channels",
+    "noMessages": "No messages in this channel",
+    "messagePlaceholder": "Write a message...",
+    "errorSending": "Error sending message. Please try again."
+  },
+  "addChannelModal": {
+    "title": "Add channel",
+    "channelNameLabel": "Channel name",
+    "channelNamePlaceholder": "channel-name",
+    "errors": {
+      "nameEmpty": "Name cannot be empty",
+      "nameExists": "A channel with this name already exists",
+      "createError": "Error creating channel"
+    }
+  },
+  "renameChannelModal": {
+    "title": "Rename channel",
+    "channelNameLabel": "Channel name",
+    "errors": {
+      "nameEmpty": "Name cannot be empty",
+      "nameExists": "A channel with this name already exists",
+      "renameError": "Error renaming channel"
+    }
+  },
+  "deleteChannelModal": {
+    "title": "Delete channel",
+    "confirmMessage": "Are you sure you want to delete the channel #{{name}}?",
+    "warning": "This action cannot be undone.",
+    "errors": {
+      "deleteError": "Error deleting channel"
+    }
+  },
+  "channelItem": {
+    "rename": "Rename",
+    "delete": "Delete"
+  },
+  "navbar": {
+    "chat": "Chat",
+    "logout": "Logout"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "message": "This page does not exist",
+    "backToHome": "Back to home"
+  }
+}

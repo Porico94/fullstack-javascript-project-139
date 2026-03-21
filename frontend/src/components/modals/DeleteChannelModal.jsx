@@ -1,8 +1,10 @@
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteChannel } from '../../store/slices/channelsSlice';
+import { useTranslation } from "react-i18next";
 
 const DeleteChannelModal = ({ show, onHide, channel }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.channels);
 
@@ -11,7 +13,7 @@ const DeleteChannelModal = ({ show, onHide, channel }) => {
       await dispatch(deleteChannel(channel.id)).unwrap();
       onHide();
     } catch (err) {
-      alert('Error al eliminar canal');
+      alert(t('deleteChannelModal.errors.deleteError'));
     }
   };
 
@@ -24,18 +26,18 @@ const DeleteChannelModal = ({ show, onHide, channel }) => {
       animation={false}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Eliminar canal</Modal.Title>
+        <Modal.Title>{t('deleteChannelModal.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>¿Estás seguro de que deseas eliminar el canal <strong>#{channel?.name}</strong>?</p>
-        <p className="text-danger">Esta acción no se puede deshacer.</p>
+        <p>{t('deleteChannelModal.confirmMessage', {name: channel?.name})}</p>
+        <p className="text-danger">{t('deleteChannelModal.warning')}</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide} disabled={loading}>
-          Cancelar
+          {t('common.cancel')}
         </Button>
         <Button variant="danger" onClick={handleDelete} disabled={loading}>
-          {loading ? 'Eliminando...' : 'Eliminar'}
+          {loading ? t('common.deleting') : t('common.delete')}
         </Button>
       </Modal.Footer>
     </Modal>

@@ -4,16 +4,18 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const LoginPage = () => {
+  const { t } = useTranslation();
   const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   const formik = useFormik({
     initialValues: {username: '', password: ''},
     validationSchema: Yup.object({
-      username: Yup.string().required('Obligatorio'),
-      password: Yup.string().required('Obligatorio'),
+      username: Yup.string().required(t('login.errors.required')),
+      password: Yup.string().required(t('login.errors.required')),
     }),
     onSubmit: async (values, {setErrors, setSubmitting}) => {
       const result = await login(values.username, values.password);
@@ -21,7 +23,20 @@ const LoginPage = () => {
       if (result.success) {
         navigate('/');
       } else {
-        setErrors({ password: result.message});
+
+        let errorMessage;
+        
+        switch (result.errorCode) {
+          case 'INVALID_CREDENTIALS':
+            errorMessage = t('login.errors.invalidCredentials');
+            break;
+          case 'CONNECTION_ERROR':
+            errorMessage = t('login.errors.connectionError');
+            break;
+          default:
+            errorMessage = t('login.errors.connectionError');
+        }
+        setErrors({ password: errorMessage});
       }
 
       setSubmitting(false);
@@ -31,19 +46,19 @@ const LoginPage = () => {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h1 style={styles.title}>Iniciar Sesión</h1>
+        <h1 style={styles.title}>{t('login.title')}</h1>
         
         <form onSubmit={formik.handleSubmit} style={styles.form}>
           {/* Campo de usuario */}
           <div style={styles.formGroup}>
             <label htmlFor="username" style={styles.label}>
-              Nombre de usuario
+              {t('common.username')}
             </label>
             <input
               id="username"
               name="username"
               type="text"
-              placeholder="Tu nombre de usuario"
+              placeholder={t('login.usernamePlaceholder')}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.username}
@@ -57,13 +72,13 @@ const LoginPage = () => {
           {/* Campo de contraseña */}
           <div style={styles.formGroup}>
             <label htmlFor="password" style={styles.label}>
-              Contraseña
+              {t('common.password')}
             </label>
             <input
               id="password"
               name="password"
               type="password"
-              placeholder="Tu contraseña"
+              placeholder={t('login.passwordPlaceholder')}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password}
@@ -80,12 +95,12 @@ const LoginPage = () => {
             disabled={formik.isSubmitting}
             style={styles.button}
           >
-            Iniciar Sesión
+            {t('login.submitButton')}
           </button>
           <div style={{ marginTop: '1rem', textAlign: 'center' }}>
-            <span>¿No tienes cuenta? </span>
+            <span>{t('login.noAccount')} </span>
             <Link to="/signup" style={{ color: '#0066cc' }}>
-              Regístrate
+              {t('login.signupLink')}
             </Link>
           </div>
         </form>

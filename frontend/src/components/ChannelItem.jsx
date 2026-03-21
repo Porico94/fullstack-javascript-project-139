@@ -1,8 +1,10 @@
 import { Dropdown } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../store/slices/channelsSlice';
+import { useTranslation } from "react-i18next";
 
 const ChannelItem = ({ channel, isActive, onRename, onDelete }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const handleChannelClick = () => {
@@ -48,10 +50,10 @@ const ChannelItem = ({ channel, isActive, onRename, onDelete }) => {
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => onRename(channel)}>
-              Renombrar
+              {t('common.rename')}
             </Dropdown.Item>
             <Dropdown.Item onClick={() => onDelete(channel)} className="text-danger">
-              Eliminar
+              {t('common.delete')}
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

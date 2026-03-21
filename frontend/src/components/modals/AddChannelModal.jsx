@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { createChannel } from '../../store/slices/channelsSlice';
+import { useTranslation } from "react-i18next";
 
 const AddChannelModal = ({ show, onHide }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { channels, loading } = useSelector((state) => state.channels);
   
@@ -15,7 +17,7 @@ const AddChannelModal = ({ show, onHide }) => {
     
     // Validar campo vacío
     if (!channelName.trim()) {
-      setError('El nombre no puede estar vacío');
+      setError(t('addChannelModal.errors.nameEmpty'));
       return;
     }
     
@@ -25,7 +27,7 @@ const AddChannelModal = ({ show, onHide }) => {
     );
     
     if (exists) {
-      setError('Ya existe un canal con ese nombre');
+      setError(t('addChannelModal.errors.nameExists'));
       return;
     }
     
@@ -35,7 +37,7 @@ const AddChannelModal = ({ show, onHide }) => {
       setError('');
       onHide();
     } catch (err) {
-      setError('Error al crear canal');
+      setError(t('addChannelModal.errors.createError'));
     }
   };  
 
@@ -60,18 +62,18 @@ const AddChannelModal = ({ show, onHide }) => {
       animation={false}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Agregar canal</Modal.Title>
+        <Modal.Title>{t('addChannelModal.title')}</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
         <Form.Group>
-          <Form.Label>Nombre del canal</Form.Label>
+          <Form.Label>{t('addChannelModal.channelNameLabel')}</Form.Label>
           <Form.Control
             type="text"
             value={channelName}
             onChange={(e) => setChannelName(e.target.value)}
             onKeyDown={handleKeyPress}
-            placeholder="nombre-del-canal"
+            placeholder={t('addChannelModal.channelNamePlaceholder')}
             autoFocus
             disabled={loading}
             isInvalid={!!error}
@@ -84,10 +86,10 @@ const AddChannelModal = ({ show, onHide }) => {
 
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide} disabled={loading}>
-          Cancelar
+          {t('common.cancel')}
         </Button>
         <Button variant="primary" onClick={handleSubmit} disabled={loading || !channelName.trim()}>
-          {loading ? 'Creando...' : 'Crear'}
+          {loading ? t('common.creating') : t('common.create')}
         </Button>
       </Modal.Footer>
     </Modal>

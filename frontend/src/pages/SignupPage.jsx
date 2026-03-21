@@ -4,8 +4,10 @@ import { useFormik } from "formik";
 import { Form, Button } from "react-bootstrap";
 import * as Yup from 'yup';
 import AuthContext from "../contexts/AuthContext";
+import { useTranslation } from "react-i18next";
 
 const SignupPage = () => {
+    const { t } = useTranslation();
     const { signup } = useContext(AuthContext);
     const navigate = useNavigate();
     const [signupError, setSignupError] = useState('');
@@ -18,15 +20,15 @@ const SignupPage = () => {
     },
     validationSchema: Yup.object({
         username: Yup.string()
-            .min(3, 'El username debe tener al menos 3 caracteres')
-            .max(20, 'El nombre debe tener máximo 20 caracteres')
-            .required('El nombre de usuario es obligatorio'),
+            .min(3, t('signup.errors.usernameTooShort'))
+            .max(20, t('signup.errors.usernameTooLong'))
+            .required(t('signup.errors.usernameRequired')),
         password: Yup.string()
-            .min(6, 'La contraseña debe tener al menos 6 caracteres')
-            .required('La contraseña es obligatoria'),
+            .min(6, t('signup.errors.passwordTooShort'))
+            .required(t('signup.errors.passwordRequired')),
         confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password'), null], 'Las contraseñas deben coincidir')
-            .required('Confirma tu contraseña')
+            .oneOf([Yup.ref('password'), null], t('signup.errors.passwordsMustMatch'))
+            .required(t('signup.errors.confirmPasswordRequired'))
     }),
     onSubmit: async (values) => {
         setSignupError('');
@@ -35,7 +37,20 @@ const SignupPage = () => {
         if (result.success) {
             navigate('/');
         } else {
-            setSignupError(result.message);           
+
+            let errorMessage;
+        
+            switch (result.errorCode) {
+                case 'USER_EXISTS':
+                errorMessage = t('signup.errors.userExists', { username: result.username });
+            break;
+            case 'CONNECTION_ERROR':
+                errorMessage = t('signup.errors.connectionError');
+                break;
+            default:
+                errorMessage = t('signup.errors.connectionError');
+        }
+            setSignupError(errorMessage);           
         }
     }
     });
@@ -56,15 +71,16 @@ const SignupPage = () => {
                 borderRadius: '8px',
                 boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
             }}>
-                <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>Registro</h2>
+                <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>{t('signup.title')}</h2>
 
                 <Form onSubmit={formik.handleSubmit}>
                     <Form.Group style={{ marginBottom: '1rem' }}>
-                        <Form.Label>Nombre de usuario</Form.Label>
+                        <Form.Label>{t('common.username')}</Form.Label>
                         <Form.Control
                             name="username"
                             type='text'
                             value={formik.values.username}
+                            placeholder={t('signup.usernamePlaceholder')}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             isInvalid={formik.touched.username && formik.errors.username}
@@ -75,11 +91,12 @@ const SignupPage = () => {
                     </Form.Group>
 
                     <Form.Group style={{ marginBottom: '1rem' }}>
-                        <Form.Label>Contraseña</Form.Label>
+                        <Form.Label>{t('common.password')}</Form.Label>
                         <Form.Control
                             name="password"
                             type='password'
                             value={formik.values.password}
+                            placeholder={t('signup.passwordPlaceholder')}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             isInvalid={formik.touched.password && formik.errors.password}
@@ -90,11 +107,12 @@ const SignupPage = () => {
                     </Form.Group>
 
                     <Form.Group style={{ marginBottom: '1rem' }}>
-                        <Form.Label>Confirmar Contraseña </Form.Label>
+                        <Form.Label>{t('signup.confirmPasswordLabel')}</Form.Label>
                         <Form.Control
                             name="confirmPassword"
                             type='password'
                             value={formik.values.confirmPassword}
+                            placeholder={t('signup.confirmPasswordPlaceholder')}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             isInvalid={formik.touched.confirmPassword && formik.errors.confirmPassword}
@@ -123,12 +141,12 @@ const SignupPage = () => {
                         disabled={formik.isSubmitting}
                         style={{width: '100%', marginBottom: '1rem'}}
                     >
-                        {formik.isSubmitting ? 'Registrando...' : 'Registrarse'}
+                        {formik.isSubmitting ? t('signup.submitting') : t('signup.submitButton')}
                     </Button>
 
                     <div style={{ textAlign: 'center' }}>
-                        <span>¿Ya tienes cuenta? </span>
-                        <Link to="/login">Iniciar sesión</Link>
+                        <span>{t('signup.hasAccount')} </span>
+                        <Link to="/login">{t('signup.loginLink')}</Link>
                     </div>            
                 </Form>
             </div>

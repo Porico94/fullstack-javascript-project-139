@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { renameChannel } from '../../store/slices/channelsSlice';
+import { useTranslation } from "react-i18next";
 
 const RenameChannelModal = ({ show, onHide, channel }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { channels, loading } = useSelector((state) => state.channels);
   
@@ -20,7 +22,7 @@ const RenameChannelModal = ({ show, onHide, channel }) => {
     e.preventDefault();
     
     if (!channelName.trim()) {
-      setError('El nombre no puede estar vacío');
+      setError(t('renameChannelModal.errors.nameEmpty'));
       return;
     }
     
@@ -29,7 +31,7 @@ const RenameChannelModal = ({ show, onHide, channel }) => {
     );
     
     if (exists) {
-      setError('Ya existe un canal con ese nombre');
+      setError(t('renameChannelModal.errors.nameExists'));
       return;
     }
     
@@ -38,7 +40,7 @@ const RenameChannelModal = ({ show, onHide, channel }) => {
       setError('');
       onHide();
     } catch (err) {
-      setError('Error al renombrar canal');
+      setError(t('renameChannelModal.errors.renameError'));
     }
   };
 
@@ -58,12 +60,12 @@ const RenameChannelModal = ({ show, onHide, channel }) => {
       animation={false}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Renombrar canal</Modal.Title>
+        <Modal.Title>{t('renameChannelModal.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group>
-            <Form.Label>Nombre del canal</Form.Label>
+            <Form.Label>{t('renameChannelModal.channelNameLabel')}</Form.Label>
             <Form.Control
               type="text"
               value={channelName}
@@ -81,10 +83,10 @@ const RenameChannelModal = ({ show, onHide, channel }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide} disabled={loading}>
-          Cancelar
+          {t('common.cancel')}
         </Button>
         <Button variant="primary" onClick={handleSubmit} disabled={loading || !channelName.trim()}>
-          {loading ? 'Renombrando...' : 'Renombrar'}
+          {loading ? t('common.renaming') : t('common.rename')}
         </Button>
       </Modal.Footer>
     </Modal>

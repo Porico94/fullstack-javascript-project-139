@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import AuthContext from '../contexts/AuthContext';
 import { Button } from 'react-bootstrap';
+import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
+  const { t } = useTranslation();
   const { loggedIn, logout } = useContext(AuthContext);
 
   return (
@@ -15,7 +17,7 @@ const Navbar = () => {
       justifyContent: 'space-between',
       alignItems: 'center'
     }}>
-      {/* TODO 1: Link a "/" con texto "Chat" */}
+      {/* Link a "/" con texto "Chat" */}
       <Link
         to="/"
         style={{ 
@@ -25,16 +27,16 @@ const Navbar = () => {
             fontWeight: 'bold'
         }}
         >
-            Chat
+          {t('navbar.chat')}
         </Link>
       
-      {/* TODO 2: Si loggedIn es true, mostrar botón "Logout" */}
+      {/* Si loggedIn es true, mostrar botón "Logout" */}
       {loggedIn && (
         <Button
             variant='light'
             onClick={logout}
         >
-            Logout
+          {t('navbar.logout')}
         </Button>
         )}
     </nav>
