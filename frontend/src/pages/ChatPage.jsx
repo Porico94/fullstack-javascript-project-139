@@ -9,6 +9,7 @@ import ChannelItem from "../components/ChannelItem";
 import AddChannelModal from "../components/modals/AddChannelModal";
 import DeleteChannelModal from "../components/modals/DeleteChannelModal";
 import RenameChannelModal from "../components/modals/RenameChannelModal";
+import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 
 const ChatPage = () => {
@@ -24,15 +25,27 @@ const ChatPage = () => {
   const [messageText, setMessageText] = useState('');
   const [sending, setSending] = useState(false);
 
-  const [showAddModal, setShowAddModal] = useState(false);
-  console.log('showAddModal:', showAddModal);
+  const [showAddModal, setShowAddModal] = useState(false);  
   const [showRenameModal, setShowRenameModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedChannel, setSelectedChannel] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchChannels());
-    dispatch(fetchMessages());
+    const loadData = async () => {
+      try {
+        await dispatch(fetchChannels()).unwrap();        
+      } catch(error) {
+        toast.error(t('notifications.channelsLoadError'));
+      }
+
+      try {
+        await dispatch(fetchMessages());
+      } catch {
+        toast.error(t('notifications.messagesLoadError'))
+      }
+    };
+
+    loadData();
   }, [dispatch]);
 
   const currentMessages = messages.filter((msg) => msg.channelId === currentChannelId);
@@ -54,7 +67,7 @@ const ChatPage = () => {
       setMessageText('');
     } catch (error) {
       console.error('Error al enviar mensaje:', error);
-      alert(t('chat.errorSending'));
+      toast.error(t('notifications.messageSendError'))
     } finally {
       setSending(false);
     }

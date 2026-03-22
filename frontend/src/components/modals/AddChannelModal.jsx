@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { createChannel } from '../../store/slices/channelsSlice';
+import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
 
 const AddChannelModal = ({ show, onHide }) => {
@@ -33,10 +34,12 @@ const AddChannelModal = ({ show, onHide }) => {
     
     try {
       await dispatch(createChannel({ name: channelName.trim() })).unwrap();
+      toast.success(t('notifications.channelCreated'));
       setChannelName('');
       setError('');
       onHide();
     } catch (err) {
+      toast.error(t('notifications.channelCreateError'));
       setError(t('addChannelModal.errors.createError'));
     }
   };  

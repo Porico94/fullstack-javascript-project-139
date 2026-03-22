@@ -15,6 +15,17 @@
     "create": "Create",
     "creating": "Creating"
   },
+  "notifications": {
+    "channelCreated": "Channel created successfully",
+    "channelRenamed": "Channel renamed successfully",
+    "channelDeleted": "Channel deleted successfully",
+    "channelCreateError": "Error creating channel",
+    "channelRenameError": "Error renaming channel",
+    "channelDeleteError": "Error deleting channel",
+    "messagesLoadError": "Error loading messages",
+    "channelsLoadError": "Error loading channels",
+    "messageSendError": "Error sending message"
+  },
   "login": {
     "title": "Login",
     "usernamePlaceholder": "Your username",

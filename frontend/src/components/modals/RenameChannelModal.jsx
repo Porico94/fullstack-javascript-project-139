@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { renameChannel } from '../../store/slices/channelsSlice';
+import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
 
 const RenameChannelModal = ({ show, onHide, channel }) => {
@@ -37,9 +38,11 @@ const RenameChannelModal = ({ show, onHide, channel }) => {
     
     try {
       await dispatch(renameChannel({ id: channel.id, name: channelName.trim() })).unwrap();
+      toast.success(t('notifications.channelRenamed'));
       setError('');
       onHide();
     } catch (err) {
+      toast.error(t('notifications.channelRenameError'));
       setError(t('renameChannelModal.errors.renameError'));
     }
   };

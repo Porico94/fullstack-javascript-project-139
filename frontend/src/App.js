@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import LoginPage from './pages/LoginPage';
 import ChatPage from './pages/ChatPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -28,6 +30,18 @@ function App() {
         {/* Ruta 404 - debe estar al final */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </BrowserRouter>
   );
 }

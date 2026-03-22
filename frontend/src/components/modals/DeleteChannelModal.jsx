@@ -1,6 +1,7 @@
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteChannel } from '../../store/slices/channelsSlice';
+import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
 
 const DeleteChannelModal = ({ show, onHide, channel }) => {
@@ -11,9 +12,10 @@ const DeleteChannelModal = ({ show, onHide, channel }) => {
   const handleDelete = async () => {
     try {
       await dispatch(deleteChannel(channel.id)).unwrap();
+      toast.success(t('notifications.channelDeleted'));
       onHide();
     } catch (err) {
-      alert(t('deleteChannelModal.errors.deleteError'));
+      toast.error(t('notifications.channelDeleteError'));      
     }
   };
 
