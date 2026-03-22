@@ -11,6 +11,7 @@ import DeleteChannelModal from "../components/modals/DeleteChannelModal";
 import RenameChannelModal from "../components/modals/RenameChannelModal";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import filter from 'leo-profanity';
 
 const ChatPage = () => {
   const { t } = useTranslation();
@@ -31,6 +32,8 @@ const ChatPage = () => {
   const [selectedChannel, setSelectedChannel] = useState(null);
 
   useEffect(() => {
+    filter.loadDictionary('en');
+
     const loadData = async () => {
       try {
         await dispatch(fetchChannels()).unwrap();        
@@ -41,10 +44,9 @@ const ChatPage = () => {
       try {
         await dispatch(fetchMessages());
       } catch {
-        toast.error(t('notifications.messagesLoadError'))
+        toast.error(t('notifications.messagesLoadError'));
       }
     };
-
     loadData();
   }, [dispatch]);
 
@@ -157,7 +159,7 @@ const ChatPage = () => {
                     {new Date(message.timestamp || Date.now()).toLocaleDateString()}
                   </span>
                 </div>
-                <div style={{ marginTop: '0.25rem' }}>{message.body}</div>
+                <div style={{ marginTop: '0.25rem' }}>{filter.clean(message.body)}</div>
               </div>
             ))
           )}
