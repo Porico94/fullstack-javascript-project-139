@@ -1,22 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './contexts/AuthContext';
-import { Provider } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
 import store from './store/store.js';
 import './i18n';
+
+const rollbarConfig = {
+  accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,
+  environment: process.env.NODE_ENV || 'development',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+};
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </Provider>    
+    <RollbarProvider config={rollbarConfig}>
+      <ErrorBoundary>
+        <ReduxProvider store={store}>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </ReduxProvider>
+      </ErrorBoundary>
+    </RollbarProvider>
   </React.StrictMode>
 );
 

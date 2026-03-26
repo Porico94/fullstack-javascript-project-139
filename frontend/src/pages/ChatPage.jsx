@@ -12,8 +12,10 @@ import RenameChannelModal from "../components/modals/RenameChannelModal";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import filter from 'leo-profanity';
+import { useRollbar } from "@rollbar/react";
 
 const ChatPage = () => {
+  const rollbar = useRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { user } = useContext(AuthContext);
@@ -39,16 +41,18 @@ const ChatPage = () => {
         await dispatch(fetchChannels()).unwrap();        
       } catch(error) {
         toast.error(t('notifications.channelsLoadError'));
+        rollbar.error('Error loading channels', error);
       }
 
       try {
-        await dispatch(fetchMessages());
-      } catch {
+        await dispatch(fetchMessages()).unwrap();
+      } catch(error) {
         toast.error(t('notifications.messagesLoadError'));
+        rollbar.error('Error loading messages', error);
       }
     };
     loadData();
-  }, [dispatch]);
+  }, [dispatch, t, rollbar]);
 
   const currentMessages = messages.filter((msg) => msg.channelId === currentChannelId);
 
@@ -68,7 +72,7 @@ const ChatPage = () => {
 
       setMessageText('');
     } catch (error) {
-      console.error('Error al enviar mensaje:', error);
+      rollbar.error('Error sending messages', error);
       toast.error(t('notifications.messageSendError'))
     } finally {
       setSending(false);
@@ -177,7 +181,7 @@ const ChatPage = () => {
           >
             {sending ? t('common.sending') : t('common.send')}
           </button>
-        </form>
+        </form>        
       </div>
 
       <AddChannelModal show={showAddModal} onHide={() => setShowAddModal(false)}/>
