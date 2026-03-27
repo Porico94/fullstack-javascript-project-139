@@ -1,87 +1,96 @@
 {
   "common": {
-    "login": "Iniciar sesión",
-    "signup": "Registrarse",
-    "cancel": "Cancelar",
     "username": "Nombre de usuario",
     "password": "Contraseña",
-    "loading": "Cargando",
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "creating": "Creando...",
+    "delete": "Eliminar",
+    "deleting": "Eliminando...",
+    "rename": "Renombrar",
+    "renaming": "Renombrando...",    
     "send": "Enviar",
     "sending": "Enviando",
-    "delete": "Eliminar",
-    "deleting": "Eliminando",
-    "rename": "Renombrar",
-    "renaming": "Renombrando",
-    "create": "Crear",
-    "creating": "Creando"
+    "loading": "Cargando"
+  },
+  "notifications": {
+    "channelCreated": "Canal creado",
+    "channelRenamed": "Canal renombrado",
+    "channelDeleted": "Canal eliminado",
+    "channelCreateError": "Error de red",
+    "channelRenameError": "Error de red",
+    "channelDeleteError": "Error de red",
+    "messagesLoadError": "Error de red",
+    "channelsLoadError": "Error de red",
+    "messageSendError": "Error de red"
   },
   "login": {
     "title": "Iniciar sesión",
-    "usernamePlaceholder": "Tu nombre de usuario",
-    "passwordPlaceholder": "Tu contraseña",
+    "usernamePlaceholder": "Nombre de usuario",
+    "passwordPlaceholder": "Contraseña",
     "submitButton": "Iniciar sesión",
     "noAccount": "¿No tienes cuenta?",
     "signupLink": "Regístrate",
     "errors": {
       "required": "Obligatorio",
       "invalidCredentials": "Usuario o contraseña incorrectos",
-      "connectionError": "Error de conexión. Intente de nuevo"
+      "connectionError": "Error de red"
     }
   },
   "signup": {
     "title": "Registro",
-    "usernamePlaceholder": "Tu nombre de usuario",
-    "passwordPlaceholder": "Tu contraseña",
+    "usernamePlaceholder": "Nombre de usuario",
+    "passwordPlaceholder": "Contraseña",
     "confirmPasswordLabel": "Confirmar contraseña",
-    "confirmPasswordPlaceholder": "Confirma tu contraseña",
+    "confirmPasswordPlaceholder": "Confirmar contraseña",
     "submitButton": "Registrarse",
     "submitting": "Registrando...",
     "hasAccount": "¿Ya tienes cuenta?",
     "loginLink": "Iniciar sesión",
     "errors": {
-      "usernameTooShort": "El nombre debe tener al menos 3 caracteres",
-      "usernameTooLong": "El nombre debe tener máximo 20 caracteres",
-      "usernameRequired": "El nombre de usuario es obligatorio",
-      "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
-      "passwordRequired": "La contraseña es obligatoria",
+      "usernameTooShort": "La longitud debe tener entre 3 a 20 caracteres",
+      "usernameTooLong": "La longitud debe tener entre 3 a 20 caracteres",
+      "usernameRequired": "Obligatorio",
+      "passwordTooShort": "La longitud debe ser mayor a 6 caracteres",
+      "passwordRequired": "Obligatorio",
       "passwordsMustMatch": "Las contraseñas deben coincidir",
-      "confirmPasswordRequired": "Confirma tu contraseña",
-      "userExists": "Ya existe el usuario {{username}}",
-      "connectionError": "Error de conexión. Intente de nuevo"
+      "confirmPasswordRequired": "Obligatorio",
+      "userExists": "El usuario ya existe",
+      "connectionError": "Error de red."
     }
   },
   "chat": {
-    "loading": "Cargando chat...",
+    "loading": "Cargando ...",
     "channels": "Canales",
-    "noMessages": "No hay mensajes en este canal",
-    "messagePlaceholder": "Escribe un mensaje...",
-    "errorSending": "Error al enviar mensaje. Intenta de nuevo."
+    "noMessages": "Aún no hay mensajes en este canal",
+    "messagePlaceholder": "Ingresa un mensaje...",
+    "errorSending": "Error de red."
   },
   "addChannelModal": {
     "title": "Agregar canal",
     "channelNameLabel": "Nombre del canal",
-    "channelNamePlaceholder": "nombre-del-canal",
+    "channelNamePlaceholder": "Nombre del canal",
     "errors": {
-      "nameEmpty": "El nombre no puede estar vacío",
-      "nameExists": "Ya existe un canal con ese nombre",
-      "createError": "Error al crear canal"
+      "nameEmpty": "Obligatorio",
+      "nameExists": "Debe ser único",
+      "createError": "Error de red"
     }
   },
   "renameChannelModal": {
     "title": "Renombrar canal",
     "channelNameLabel": "Nombre del canal",
     "errors": {
-      "nameEmpty": "El nombre no puede estar vacío",
-      "nameExists": "Ya existe un canal con ese nombre",
-      "renameError": "Error al renombrar canal"
+      "nameEmpty": "Obligatorio",
+      "nameExists": "Debe ser único",
+      "renameError": "Error de red"
     }
   },
   "deleteChannelModal": {
     "title": "Eliminar canal",
-    "confirmMessage": "¿Estás seguro de que deseas eliminar el canal #{{name}}?",
+    "confirmMessage": "¿Estás seguro?",
     "warning": "Esta acción no se puede deshacer.",
     "errors": {
-      "deleteError": "Error al eliminar canal"
+      "deleteError": "Error de red"
     }
   },
   "channelItem": {
@@ -89,12 +98,12 @@
     "delete": "Eliminar"
   },
   "navbar": {
-    "chat": "Chat",
+    "chat": "Chat de Hexlet",
     "logout": "Cerrar sesión"
   },
   "notFound": {
     "title": "Página no encontrada",
-    "message": "Esta página no existe",
+    "message": "La página que estas buscando no existe.",
     "backToHome": "Volver al inicio"
   }
 }

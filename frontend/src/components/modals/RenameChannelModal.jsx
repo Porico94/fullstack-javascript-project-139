@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { renameChannel } from '../../store/slices/channelsSlice';
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
+import { useRollbar } from '@rollbar/react';
 
 const RenameChannelModal = ({ show, onHide, channel }) => {
+  const rollbar = useRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { channels, loading } = useSelector((state) => state.channels);
@@ -42,6 +44,10 @@ const RenameChannelModal = ({ show, onHide, channel }) => {
       setError('');
       onHide();
     } catch (err) {
+      rollbar.error('Error al crear canal desde el modal', err, {
+        triedName: channel.name,
+        location: 'RenameChannelModal'
+      });
       toast.error(t('notifications.channelRenameError'));
       setError(t('renameChannelModal.errors.renameError'));
     }

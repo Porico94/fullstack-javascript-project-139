@@ -1,98 +1,96 @@
 {
-  "common": {
-    "login": "Login",
-    "signup": "Sign up",
-    "cancel": "Cancel",
+  "common": {    
     "username": "Username",
     "password": "Password",
-    "loading": "Loading",
-    "send": "Send",
-    "sending": "Sending",
-    "delete": "Delete",
-    "deleting": "Deleting",
-    "rename": "Rename",
-    "renaming": "Renaming",
+    "cancel": "Cancel",
     "create": "Create",
-    "creating": "Creating"
+    "creating": "Creating...",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "rename": "Rename",
+    "renaming": "Renaming...",
+    "send": "Send",
+    "sending": "Sending...",
+    "loading": "Loading..."
   },
   "notifications": {
-    "channelCreated": "Channel created successfully",
-    "channelRenamed": "Channel renamed successfully",
-    "channelDeleted": "Channel deleted successfully",
-    "channelCreateError": "Error creating channel",
-    "channelRenameError": "Error renaming channel",
-    "channelDeleteError": "Error deleting channel",
-    "messagesLoadError": "Error loading messages",
-    "channelsLoadError": "Error loading channels",
-    "messageSendError": "Error sending message"
+    "channelCreated": "Channel created",
+    "channelRenamed": "Channel renamed",
+    "channelDeleted": "Channel removed",
+    "channelCreateError": "Network error",
+    "channelRenameError": "Network error",
+    "channelDeleteError": "Network error",
+    "messagesLoadError": "Network error",
+    "channelsLoadError": "Network error",
+    "messageSendError": "Network error"
   },
   "login": {
-    "title": "Login",
-    "usernamePlaceholder": "Your username",
-    "passwordPlaceholder": "Your password",
-    "submitButton": "Sign in",
-    "noAccount": "Don't have an account?",
+    "title": "Log in",
+    "usernamePlaceholder": "Your nickname",
+    "passwordPlaceholder": "Password",
+    "submitButton": "Log in",
+    "noAccount": "No account?",
     "signupLink": "Sign up",
     "errors": {
       "required": "Required",
-      "invalidCredentials": "Invalid username or password",
-      "connectionError": "Connection error. Please try again"
+      "invalidCredentials": "Username or password is incorrect",
+      "connectionError": "Network error"
     }
   },
   "signup": {
     "title": "Sign up",
-    "usernamePlaceholder": "Your username",
-    "passwordPlaceholder": "Your password",
+    "usernamePlaceholder": "Username",
+    "passwordPlaceholder": "Password",
     "confirmPasswordLabel": "Confirm password",
-    "confirmPasswordPlaceholder": "Confirm your password",
+    "confirmPasswordPlaceholder": "Confirm password",
     "submitButton": "Sign up",
     "submitting": "Signing up...",
     "hasAccount": "Already have an account?",
-    "loginLink": "Sign in",
+    "loginLink": "Log in",
     "errors": {
-      "usernameTooShort": "Username must be at least 3 characters",
-      "usernameTooLong": "Username must be at most 20 characters",
-      "usernameRequired": "Username is required",
-      "passwordTooShort": "Password must be at least 6 characters",
-      "passwordRequired": "Password is required",
+      "usernameTooShort": "Must be from 3 to 20 characters",
+      "usernameTooLong": "Must be from 3 to 20 characters",
+      "usernameRequired": "Required",
+      "passwordTooShort": "Must be > 6 characters",
+      "passwordRequired": "Required",
       "passwordsMustMatch": "Passwords must match",
-      "confirmPasswordRequired": "Please confirm your password",
-      "userExists": "User {{username}} already exists",
-      "connectionError": "Connection error. Please try again"
+      "confirmPasswordRequired": "Required",
+      "userExists": "User already exists",
+      "connectionError": "Network error"
     }
   },
   "chat": {
-    "loading": "Loading chat...",
+    "loading": "Loading ...",
     "channels": "Channels",
-    "noMessages": "No messages in this channel",
-    "messagePlaceholder": "Write a message...",
-    "errorSending": "Error sending message. Please try again."
+    "noMessages": "No messages yet",
+    "messagePlaceholder": "Enter message...",
+    "errorSending": "Network error"
   },
   "addChannelModal": {
     "title": "Add channel",
     "channelNameLabel": "Channel name",
-    "channelNamePlaceholder": "channel-name",
+    "channelNamePlaceholder": "Channel name",
     "errors": {
-      "nameEmpty": "Name cannot be empty",
-      "nameExists": "A channel with this name already exists",
-      "createError": "Error creating channel"
+      "nameEmpty": "Required",
+      "nameExists": "Must be unique",
+      "createError": "Network error"
     }
   },
   "renameChannelModal": {
     "title": "Rename channel",
     "channelNameLabel": "Channel name",
     "errors": {
-      "nameEmpty": "Name cannot be empty",
-      "nameExists": "A channel with this name already exists",
-      "renameError": "Error renaming channel"
+      "nameEmpty": "Required",
+      "nameExists": "Must be unique",
+      "renameError": "Network error"
     }
   },
   "deleteChannelModal": {
     "title": "Delete channel",
-    "confirmMessage": "Are you sure you want to delete the channel #{{name}}?",
+    "confirmMessage": "Are you sure?",
     "warning": "This action cannot be undone.",
     "errors": {
-      "deleteError": "Error deleting channel"
+      "deleteError": "Network error"
     }
   },
   "channelItem": {
@@ -100,12 +98,12 @@
     "delete": "Delete"
   },
   "navbar": {
-    "chat": "Chat",
-    "logout": "Logout"
+    "chat": "Hexlet Chat",
+    "logout": "Log out"
   },
   "notFound": {
     "title": "Page not found",
-    "message": "This page does not exist",
+    "message": "The page you're looking for doesn't exist.",
     "backToHome": "Back to home"
   }
 }

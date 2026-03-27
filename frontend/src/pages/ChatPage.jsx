@@ -92,7 +92,7 @@ const ChatPage = () => {
   if (channelsLoading || messagesLoading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <div>{t('chat.loading')}</div>
+        <div>{t('common.loading')}</div>
       </div>
     );
   }
@@ -144,7 +144,7 @@ const ChatPage = () => {
         {/* Header con nombre del canal */}
         <div style={{padding: '1rem', borderBottom: '1px solid #ccc', backgroundColor: '#f5f5f5'}}>
           <h2 style={{margin: 0}}>
-            # {channelsLoading ? t('chat.chats') : (currentChannel?.name || 'Canal')}
+            # {channelsLoading ? t('chat.channels') : (currentChannel?.name || 'Canal')}
           </h2>
         </div>
 

@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteChannel } from '../../store/slices/channelsSlice';
 import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
+import { useRollbar } from '@rollbar/react';
 
 const DeleteChannelModal = ({ show, onHide, channel }) => {
+  const rollbar = useRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.channels);
@@ -15,6 +17,10 @@ const DeleteChannelModal = ({ show, onHide, channel }) => {
       toast.success(t('notifications.channelDeleted'));
       onHide();
     } catch (err) {
+      rollbar.error('Error al crear canal desde el modal', err, {
+        triedName: channel.name,
+        location: 'DeleteChannelModal'
+      });
       toast.error(t('notifications.channelDeleteError'));      
     }
   };
@@ -31,7 +37,7 @@ const DeleteChannelModal = ({ show, onHide, channel }) => {
         <Modal.Title>{t('deleteChannelModal.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>{t('deleteChannelModal.confirmMessage', {name: channel?.name})}</p>
+        <p>{t('deleteChannelModal.confirmMessage')}</p>
         <p className="text-danger">{t('deleteChannelModal.warning')}</p>
       </Modal.Body>
       <Modal.Footer>

@@ -13,46 +13,46 @@ const SignupPage = () => {
     const [signupError, setSignupError] = useState('');
 
     const formik = useFormik({
-    initialValues: {
-        username: '',
-        password: '',
-        confirmPassword: ''
-    },
-    validationSchema: Yup.object({
-        username: Yup.string()
-            .min(3, t('signup.errors.usernameTooShort'))
-            .max(20, t('signup.errors.usernameTooLong'))
-            .required(t('signup.errors.usernameRequired')),
-        password: Yup.string()
-            .min(6, t('signup.errors.passwordTooShort'))
-            .required(t('signup.errors.passwordRequired')),
-        confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password'), null], t('signup.errors.passwordsMustMatch'))
-            .required(t('signup.errors.confirmPasswordRequired'))
-    }),
-    onSubmit: async (values) => {
-        setSignupError('');
-        const result = await signup(values.username, values.password);
+        initialValues: {
+            username: '',
+            password: '',
+            confirmPassword: ''
+        },
+        validationSchema: Yup.object({
+            username: Yup.string()
+                .min(3, t('signup.errors.usernameTooShort'))
+                .max(20, t('signup.errors.usernameTooLong'))
+                .required(t('signup.errors.usernameRequired')),
+            password: Yup.string()
+                .min(6, t('signup.errors.passwordTooShort'))
+                .required(t('signup.errors.passwordRequired')),
+            confirmPassword: Yup.string()
+                .oneOf([Yup.ref('password'), null], t('signup.errors.passwordsMustMatch'))
+                .required(t('signup.errors.confirmPasswordRequired'))
+        }),
+        onSubmit: async (values) => {
+            setSignupError('');
+            const result = await signup(values.username, values.password);
 
-        if (result.success) {
-            navigate('/');
-        } else {
+            if (result.success) {
+                navigate('/');
+            } else {
 
-            let errorMessage;
+                let errorMessage;
         
-            switch (result.errorCode) {
-                case 'USER_EXISTS':
-                errorMessage = t('signup.errors.userExists', { username: result.username });
-            break;
-            case 'CONNECTION_ERROR':
-                errorMessage = t('signup.errors.connectionError');
+                switch (result.errorCode) {
+                    case 'USER_EXISTS':
+                    errorMessage = t('signup.errors.userExists');
                 break;
-            default:
-                errorMessage = t('signup.errors.connectionError');
+                case 'CONNECTION_ERROR':
+                    errorMessage = t('signup.errors.connectionError');
+                    break;
+                default:
+                    errorMessage = t('signup.errors.connectionError');
+                }
+                setSignupError(errorMessage);           
+            }
         }
-            setSignupError(errorMessage);           
-        }
-    }
     });
 
     return (
@@ -75,8 +75,9 @@ const SignupPage = () => {
 
                 <Form onSubmit={formik.handleSubmit}>
                     <Form.Group style={{ marginBottom: '1rem' }}>
-                        <Form.Label>{t('common.username')}</Form.Label>
+                        <Form.Label htmlFor="username">{t('common.username')}</Form.Label>
                         <Form.Control
+                            id="username"
                             name="username"
                             type='text'
                             value={formik.values.username}
@@ -91,8 +92,9 @@ const SignupPage = () => {
                     </Form.Group>
 
                     <Form.Group style={{ marginBottom: '1rem' }}>
-                        <Form.Label>{t('common.password')}</Form.Label>
+                        <Form.Label htmlFor="password">{t('common.password')}</Form.Label>
                         <Form.Control
+                            id="password"
                             name="password"
                             type='password'
                             value={formik.values.password}
@@ -107,8 +109,9 @@ const SignupPage = () => {
                     </Form.Group>
 
                     <Form.Group style={{ marginBottom: '1rem' }}>
-                        <Form.Label>{t('signup.confirmPasswordLabel')}</Form.Label>
+                        <Form.Label htmlFor="confirmPassword">{t('signup.confirmPasswordLabel')}</Form.Label>
                         <Form.Control
+                            id="confirmPassword"
                             name="confirmPassword"
                             type='password'
                             value={formik.values.confirmPassword}

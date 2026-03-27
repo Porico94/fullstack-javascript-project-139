@@ -3,9 +3,11 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { createChannel } from '../../store/slices/channelsSlice';
 import { toast } from 'react-toastify';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
+import { useRollbar } from '@rollbar/react';
 
 const AddChannelModal = ({ show, onHide }) => {
+  const rollbar = useRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { channels, loading } = useSelector((state) => state.channels);
@@ -39,6 +41,10 @@ const AddChannelModal = ({ show, onHide }) => {
       setError('');
       onHide();
     } catch (err) {
+      rollbar.error('Error creating channel', err, {
+        triedName: channelName,
+        location: 'AddChannelModal'
+      });
       toast.error(t('notifications.channelCreateError'));
       setError(t('addChannelModal.errors.createError'));
     }
@@ -70,8 +76,9 @@ const AddChannelModal = ({ show, onHide }) => {
 
       <Modal.Body>
         <Form.Group>
-          <Form.Label>{t('addChannelModal.channelNameLabel')}</Form.Label>
+          <Form.Label htmlFor='channel-name'>{t('addChannelModal.channelNameLabel')}</Form.Label>
           <Form.Control
+            id='channel-name'
             type="text"
             value={channelName}
             onChange={(e) => setChannelName(e.target.value)}
