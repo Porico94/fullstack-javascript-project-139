@@ -33,7 +33,7 @@
     "signupLink": "Sign up",
     "errors": {
       "required": "Required",
-      "invalidCredentials": "Username or password is incorrect",
+      "invalidCredentials": "Username or password are incorrect",
       "connectionError": "Network error"
     }
   },
