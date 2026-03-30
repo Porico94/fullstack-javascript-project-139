@@ -52,7 +52,7 @@ const LoginPage = () => {
           {/* Campo de usuario */}
           <div style={styles.formGroup}>
             <label htmlFor="username" style={styles.label}>
-              {t('common.username')}
+              {t('login.usernamePlaceholder')}
             </label>
             <input
               id="username"
