@@ -5,7 +5,7 @@ import LoginPage from './pages/LoginPage';
 import ChatPage from './pages/ChatPage';
 import NotFoundPage from './pages/NotFoundPage';
 import SignupPage from './pages/SignupPage';
-import Navbar from './components/NavBar';
+import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRouter';
 
 
