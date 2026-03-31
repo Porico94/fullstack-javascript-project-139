@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from "react-bootstrap";
 import { fetchChannels } from '../store/slices/channelsSlice';
@@ -15,7 +15,6 @@ import filter from 'leo-profanity';
 import { useRollbar } from "@rollbar/react";
 
 const ChatPage = () => {  
-  const inputRef = useRef(null);
   const rollbar = useRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -71,8 +70,7 @@ const ChatPage = () => {
         username: user?.username || 'Usuario',
       })).unwrap();
 
-      setMessageText('');
-      inputRef.current.focus();
+      setMessageText('');      
     } catch (error) {
       rollbar.error('Error sending messages', error);
       toast.error(t('notifications.messageSendError'))
@@ -173,11 +171,11 @@ const ChatPage = () => {
 
         {/* Formulario de envío */}
         <form onSubmit={handleSubmit} style={{ padding: '1rem', borderTop: '1px solid #ccc', display: 'flex', gap: '0.5rem'}}>
-          <input type='text' name="body" ref={inputRef} value={messageText} aria-label="New message" onChange={(e)=> setMessageText(e.target.value)}
-            placeholder={t('chat.messagePlaceholder')} disabled={sending}
+          <input type='text' name="body" id="message-input" value={messageText} aria-label="New message" onChange={(e)=> setMessageText(e.target.value)}
+            placeholder={t('chat.messagePlaceholder')} disabled={sending} autoComplete="off"
             style={{flex: 1, padding: '0.75rem', fontSize: '1rem', border: '1px solid #ccc', borderRadius: '4px', outline: 'none'}}
           />
-          <button type='submit' disabled={sending || !messageText.trim()}
+          <button type='submit' aria-label="Send message" disabled={sending || !messageText.trim()}
             style={{padding: '0.75rem 1.5rem', fontSize: '1rem', backgroundColor: sending || !messageText.trim() ? '#ccc' : '#0066cc',
               color: 'white', border: 'none', borderRadius: '4px', cursor: sending || !messageText.trim() ? 'not-allowed' : 'pointer', fontWeight: '600'}}
           >
