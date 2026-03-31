@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { renameChannel } from '../../store/slices/channelsSlice';
@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useRollbar } from '@rollbar/react';
 
 const RenameChannelModal = ({ show, onHide, channel }) => {
+  const inputRef = useRef(null);
   const rollbar = useRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -16,10 +17,15 @@ const RenameChannelModal = ({ show, onHide, channel }) => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (channel) {
-      setChannelName(channel.name);
+    if(show) {
+      setError('');
+      if (channel) setChannelName(channel.name);
+
+      setTimeout(() => {
+        inputRef.current?.select();
+      }, 0);
     }
-  }, [channel]);
+  }, [show, channel]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,8 +80,9 @@ const RenameChannelModal = ({ show, onHide, channel }) => {
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group>
-            <Form.Label>{t('renameChannelModal.channelNameLabel')}</Form.Label>
+            <Form.Label htmlFor="rename-channel-input">{t('renameChannelModal.channelNameLabel')}</Form.Label>
             <Form.Control
+              id="rename-channel-input"
               type="text"
               value={channelName}
               onChange={(e) => setChannelName(e.target.value)}
