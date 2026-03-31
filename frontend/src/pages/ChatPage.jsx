@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from "react-bootstrap";
 import { fetchChannels } from '../store/slices/channelsSlice';
@@ -15,6 +15,7 @@ import filter from 'leo-profanity';
 import { useRollbar } from "@rollbar/react";
 
 const ChatPage = () => {  
+  const inputRef = useRef(null);
   const rollbar = useRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -71,6 +72,7 @@ const ChatPage = () => {
       })).unwrap();
 
       setMessageText('');
+      inputRef.current.focus();
     } catch (error) {
       rollbar.error('Error sending messages', error);
       toast.error(t('notifications.messageSendError'))
@@ -171,7 +173,7 @@ const ChatPage = () => {
 
         {/* Formulario de envío */}
         <form onSubmit={handleSubmit} style={{ padding: '1rem', borderTop: '1px solid #ccc', display: 'flex', gap: '0.5rem'}}>
-          <input type='text' name="body" value={messageText} aria-label="New message" onChange={(e)=> setMessageText(e.target.value)}
+          <input type='text' name="body" ref={inputRef} value={messageText} aria-label="New message" onChange={(e)=> setMessageText(e.target.value)}
             placeholder={t('chat.messagePlaceholder')} disabled={sending}
             style={{flex: 1, padding: '0.75rem', fontSize: '1rem', border: '1px solid #ccc', borderRadius: '4px', outline: 'none'}}
           />

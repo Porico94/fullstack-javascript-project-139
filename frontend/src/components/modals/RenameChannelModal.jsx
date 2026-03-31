@@ -85,6 +85,7 @@ const RenameChannelModal = ({ show, onHide, channel }) => {
               id="rename-channel-input"
               type="text"
               value={channelName}
+              ref={inputRef}
               onChange={(e) => setChannelName(e.target.value)}
               onKeyDown={handleKeyPress}
               autoFocus
