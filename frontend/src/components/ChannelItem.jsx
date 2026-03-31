@@ -47,7 +47,7 @@ const ChannelItem = ({ channel, isActive, onRename, onDelete }) => {
               textDecoration: 'none'
             }}
           >
-            <span>⋮</span>
+            Manage channel
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => onRename(channel)}>
