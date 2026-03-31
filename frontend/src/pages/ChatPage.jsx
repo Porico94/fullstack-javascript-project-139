@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import filter from 'leo-profanity';
 import { useRollbar } from "@rollbar/react";
 
-const ChatPage = () => {
+const ChatPage = () => {  
   const rollbar = useRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -171,7 +171,7 @@ const ChatPage = () => {
 
         {/* Formulario de envío */}
         <form onSubmit={handleSubmit} style={{ padding: '1rem', borderTop: '1px solid #ccc', display: 'flex', gap: '0.5rem'}}>
-          <input type='text' value={messageText} aria-label="new message" onChange={(e)=> setMessageText(e.target.value)}
+          <input type='text' name="body" value={messageText} aria-label="New message" onChange={(e)=> setMessageText(e.target.value)}
             placeholder={t('chat.messagePlaceholder')} disabled={sending}
             style={{flex: 1, padding: '0.75rem', fontSize: '1rem', border: '1px solid #ccc', borderRadius: '4px', outline: 'none'}}
           />
@@ -181,7 +181,7 @@ const ChatPage = () => {
           >
             {sending ? t('common.sending') : t('common.send')}
           </button>
-        </form>        
+        </form>
       </div>
 
       <AddChannelModal show={showAddModal} onHide={() => setShowAddModal(false)}/>
