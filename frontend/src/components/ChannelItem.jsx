@@ -40,6 +40,7 @@ const ChannelItem = ({ channel, isActive, onRename, onDelete }) => {
           <Dropdown.Toggle
             variant="link"
             size="sm"
+            aria-label='Manage channel'
             style={{
               padding: '0.25rem 0.5rem',
               color: '#666',

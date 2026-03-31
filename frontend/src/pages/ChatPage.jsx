@@ -78,6 +78,13 @@ const ChatPage = () => {
       setSending(false);
     }
   };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
   
   const handleRenameChannel = (channel) => {
     setSelectedChannel(channel);
@@ -172,7 +179,7 @@ const ChatPage = () => {
         {/* Formulario de envío */}
         <form onSubmit={handleSubmit} style={{ padding: '1rem', borderTop: '1px solid #ccc', display: 'flex', gap: '0.5rem'}}>
           <input type='text' name="body" id="message-input" value={messageText} aria-label="New message" onChange={(e)=> setMessageText(e.target.value)}
-            placeholder={t('chat.messagePlaceholder')} disabled={sending} autoComplete="off"
+            onKeyDown={handleKeyPress} placeholder={t('chat.messagePlaceholder')} disabled={sending} autoComplete="off"
             style={{flex: 1, padding: '0.75rem', fontSize: '1rem', border: '1px solid #ccc', borderRadius: '4px', outline: 'none'}}
           />
           <button type='submit' aria-label="Send message" disabled={sending || !messageText.trim()}
