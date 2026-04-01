@@ -6,52 +6,54 @@ import { addChannel, removeChannel, updateChannel } from '../store/slices/channe
 
 let socket = null;
 
-export const useSocket = () => {
-    const dispatch = useDispatch();
-    
-    useEffect(() => {
-        socket = io('http://localhost:5001', {
-            transports: ['websocket'],
-            upgrade: false,
-        });
+const useSocket = () => {
+  const dispatch = useDispatch();
 
-        socket.on('connect', () => {
-            console.log('Conectado a webSocket, ID:', socket.id);
-        });
+  useEffect(() => {
+    socket = io('http://localhost:5001', {
+      transports: ['websocket'],
+      upgrade: false,
+    });
 
-        socket.on('newMessage', (message) => {
-            console.log('Nuevo mensaje:', message)
-            dispatch(addMessage(message));
-        });
+    socket.on('connect', () => {
+      console.log('Conectado a webSocket, ID:', socket.id);
+    });
 
-        socket.on('newChannel', (channel) => {
-            console.log('Nuevo canal:', channel);
-            dispatch(addChannel(channel));
-        });
+    socket.on('newMessage', (message) => {
+      console.log('Nuevo mensaje:', message);
+      dispatch(addMessage(message));
+    });
 
-        socket.on('removeChannel', ({id}) => {
-            console.log('Canal eliminado:', id);
-            dispatch(removeChannel(id));
-        });
+    socket.on('newChannel', (channel) => {
+      console.log('Nuevo canal:', channel);
+      dispatch(addChannel(channel));
+    });
 
-        socket.on('renameChannel', (channel) => {
-            console.log('Canal renombrado:', channel.name);
-            dispatch(updateChannel(channel));
-        })
+    socket.on('removeChannel', ({ id }) => {
+      console.log('Canal eliminado:', id);
+      dispatch(removeChannel(id));
+    });
 
-        socket.on('disconnect', () => {
-            console.log('Desconectado');
-        });
+    socket.on('renameChannel', (channel) => {
+      console.log('Canal renombrado:', channel.name);
+      dispatch(updateChannel(channel));
+    });
 
-        socket.on('connect_error', (error) => {
-            console.error('❌ Error de conexión WebSocket:', error);
-        });
+    socket.on('disconnect', () => {
+      console.log('Desconectado');
+    });
 
-        return () => {
-            console.log('Cerrando conexión webSocket...');
-            socket.disconnect();
-        };
-    }, [dispatch]);
+    socket.on('connect_error', (error) => {
+      console.error('❌ Error de conexión WebSocket:', error);
+    });
 
-    return socket;
+    return () => {
+      console.log('Cerrando conexión webSocket...');
+      socket.disconnect();
+    };
+  }, [dispatch]);
+
+  return socket;
 };
+
+export default useSocket;

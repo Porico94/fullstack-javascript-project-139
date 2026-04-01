@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom/client';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+import { Provider as ReduxProvider } from 'react-redux';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './contexts/AuthContext';
-import { Provider as ReduxProvider } from 'react-redux';
 import store from './store/store.js';
 import './i18n';
 
@@ -29,7 +29,7 @@ root.render(
         </ReduxProvider>
       </ErrorBoundary>
     </RollbarProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

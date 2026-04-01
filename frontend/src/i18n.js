@@ -4,23 +4,23 @@ import translationEN from './locales/en/translation.json';
 import translationES from './locales/es/translation.json';
 
 const resources = {
-    en: {
-        translation: translationEN
-    },
-    es: {
-        translation: translationES
-    }
+  en: {
+    translation: translationEN,
+  },
+  es: {
+    translation: translationES,
+  },
 };
 
 i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'en',  // Idioma por defecto
-    fallbackLng: 'en',  // Idioma de respaldo
+    lng: 'en', // Idioma por defecto
+    fallbackLng: 'en', // Idioma de respaldo
     interpolation: {
-      escapeValue: false
-    }
+      escapeValue: false,
+    },
   });
 
 export default i18n;
