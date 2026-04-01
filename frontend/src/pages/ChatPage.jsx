@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import { fetchChannels } from '../store/slices/channelsSlice';
 import { fetchMessages, sendMessage } from '../store/slices/messagesSlice';
 import AuthContext from '../contexts/AuthContext';
-import { useSocket } from '../hooks/useSocket';
+import useSocket from '../hooks/useSocket';
 import ChannelItem from "../components/ChannelItem";
 import AddChannelModal from "../components/modals/AddChannelModal";
 import DeleteChannelModal from "../components/modals/DeleteChannelModal";
