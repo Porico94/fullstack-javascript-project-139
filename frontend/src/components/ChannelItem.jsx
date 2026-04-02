@@ -35,7 +35,8 @@ const ChannelItem = ({
         tabIndex={0}
         onClick={handleChannelClick}
         onKeyDown={(e) => e.key === 'Enter' && handleChannelClick()}
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events,
+        // jsx-a11y/no-static-element-interactions
         style={{
           flex: 1,
           overflow: 'hidden',
