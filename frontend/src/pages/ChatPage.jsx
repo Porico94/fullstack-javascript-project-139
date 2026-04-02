@@ -72,7 +72,7 @@ const ChatPage = () => {
       })).unwrap();
       setMessageText('');
     } catch (error) {
-      rollbar.error('Error sending messages', error);
+      rollbar.error('Error sending message', error);
       toast.error(t('notifications.messageSendError'));
     } finally {
       setSending(false);
@@ -197,7 +197,7 @@ const ChatPage = () => {
             name="body"
             id="message-input"
             value={messageText}
-            aria-label={t('chat.newMessage')}
+            aria-label="New message"
             onChange={(e) => setMessageText(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder={t('chat.messagePlaceholder')}
@@ -214,7 +214,6 @@ const ChatPage = () => {
           />
           <button
             type="submit"
-            aria-label={t('chat.send')}
             disabled={sending || !messageText.trim()}
             style={{
               padding: '0.75rem 1.5rem',
