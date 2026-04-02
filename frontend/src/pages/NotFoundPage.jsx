@@ -1,23 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-const NotFoundPage = () => {
-  const { t } = useTranslation();
-
-  return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>404</h1>
-      <p style={styles.subtitle}>{t('notFound.title')}</p>
-      <p style={styles.text}>
-        {t('notFound.message')}
-      </p>
-      <Link to="/" style={styles.link}>
-        {t('notFound.backToHome')}
-      </Link>
-    </div>
-  );
-};
-
 const styles = {
   container: {
     display: 'flex',
@@ -52,6 +35,23 @@ const styles = {
     borderRadius: '4px',
     transition: 'background-color 0.3s',
   },
+};
+
+const NotFoundPage = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div style={styles.container}>
+      <h1 style={styles.title}>404</h1>
+      <p style={styles.subtitle}>{t('notFound.title')}</p>
+      <p style={styles.text}>
+        {t('notFound.message')}
+      </p>
+      <Link to="/" style={styles.link}>
+        {t('notFound.backToHome')}
+      </Link>
+    </div>
+  );
 };
 
 export default NotFoundPage;

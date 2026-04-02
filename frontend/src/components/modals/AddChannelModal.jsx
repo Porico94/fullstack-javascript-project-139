@@ -1,39 +1,39 @@
-import { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import React, { useState } from 'react';
+import {
+  Modal, Button, Form,
+} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { createChannel } from '../../store/slices/channelsSlice';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useRollbar } from '@rollbar/react';
+import { createChannel } from '../../store/slices/channelsSlice';
 
 const AddChannelModal = ({ show, onHide }) => {
   const rollbar = useRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { channels, loading } = useSelector((state) => state.channels);
-  
+
   const [channelName, setChannelName] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validar campo vacío
+
     if (!channelName.trim()) {
       setError(t('addChannelModal.errors.nameEmpty'));
       return;
     }
-    
-    // Validar duplicados
+
     const exists = channels.find(
-      ch => ch.name.toLowerCase() === channelName.trim().toLowerCase()
+      (ch) => ch.name.toLowerCase() === channelName.trim().toLowerCase(),
     );
-    
+
     if (exists) {
       setError(t('addChannelModal.errors.nameExists'));
       return;
     }
-    
+
     try {
       await dispatch(createChannel({ name: channelName.trim() })).unwrap();
       toast.success(t('notifications.channelCreated'));
@@ -43,12 +43,12 @@ const AddChannelModal = ({ show, onHide }) => {
     } catch (err) {
       rollbar.error('Error creating channel', err, {
         triedName: channelName,
-        location: 'AddChannelModal'
+        location: 'AddChannelModal',
       });
       toast.error(t('notifications.channelCreateError'));
       setError(t('addChannelModal.errors.createError'));
     }
-  };  
+  };
 
   const handleShow = () => {
     setChannelName('');
@@ -62,7 +62,7 @@ const AddChannelModal = ({ show, onHide }) => {
     }
   };
 
-  return (    
+  return (
     <Modal
       show={show}
       onHide={onHide}
@@ -76,9 +76,9 @@ const AddChannelModal = ({ show, onHide }) => {
 
       <Modal.Body>
         <Form.Group>
-          <Form.Label htmlFor='channel-name'>{t('addChannelModal.channelNameLabel')}</Form.Label>
+          <Form.Label htmlFor="channel-name">{t('addChannelModal.channelNameLabel')}</Form.Label>
           <Form.Control
-            id='channel-name'
+            id="channel-name"
             type="text"
             value={channelName}
             onChange={(e) => setChannelName(e.target.value)}
@@ -98,7 +98,11 @@ const AddChannelModal = ({ show, onHide }) => {
         <Button variant="secondary" onClick={onHide} disabled={loading}>
           {t('common.cancel')}
         </Button>
-        <Button variant="primary" onClick={handleSubmit} disabled={loading || !channelName.trim()}>
+        <Button
+          variant="primary"
+          onClick={handleSubmit}
+          disabled={loading || !channelName.trim()}
+        >
           {loading ? t('common.creating') : t('common.create')}
         </Button>
       </Modal.Footer>

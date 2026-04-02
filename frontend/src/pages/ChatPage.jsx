@@ -1,20 +1,21 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from "react-bootstrap";
+import { Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
+import { useRollbar } from '@rollbar/react';
+
 import { fetchChannels } from '../store/slices/channelsSlice';
 import { fetchMessages, sendMessage } from '../store/slices/messagesSlice';
 import AuthContext from '../contexts/AuthContext';
 import useSocket from '../hooks/useSocket';
-import ChannelItem from "../components/ChannelItem";
-import AddChannelModal from "../components/modals/AddChannelModal";
-import DeleteChannelModal from "../components/modals/DeleteChannelModal";
-import RenameChannelModal from "../components/modals/RenameChannelModal";
-import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
-import filter from 'leo-profanity';
-import { useRollbar } from "@rollbar/react";
+import ChannelItem from '../components/ChannelItem';
+import AddChannelModal from '../components/modals/AddChannelModal';
+import DeleteChannelModal from '../components/modals/DeleteChannelModal';
+import RenameChannelModal from '../components/modals/RenameChannelModal';
 
-const ChatPage = () => {  
+const ChatPage = () => {
   const rollbar = useRollbar();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -22,13 +23,15 @@ const ChatPage = () => {
 
   useSocket();
 
-  const { channels, currentChannelId, loading: channelsLoading } = useSelector((state) => state.channels);
+  const { channels, currentChannelId, loading: channelsLoading } = useSelector(
+    (state) => state.channels,
+  );
   const { messages, loading: messagesLoading } = useSelector((state) => state.messages);
 
   const [messageText, setMessageText] = useState('');
   const [sending, setSending] = useState(false);
 
-  const [showAddModal, setShowAddModal] = useState(false);  
+  const [showAddModal, setShowAddModal] = useState(false);
   const [showRenameModal, setShowRenameModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedChannel, setSelectedChannel] = useState(null);
@@ -38,15 +41,15 @@ const ChatPage = () => {
 
     const loadData = async () => {
       try {
-        await dispatch(fetchChannels()).unwrap();        
-      } catch(error) {
+        await dispatch(fetchChannels()).unwrap();
+      } catch (error) {
         toast.error(t('notifications.channelsLoadError'));
         rollbar.error('Error loading channels', error);
       }
 
       try {
         await dispatch(fetchMessages()).unwrap();
-      } catch(error) {
+      } catch (error) {
         toast.error(t('notifications.messagesLoadError'));
         rollbar.error('Error loading messages', error);
       }
@@ -58,22 +61,19 @@ const ChatPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!messageText.trim()) return;
 
     setSending(true);
-
     try {
       await dispatch(sendMessage({
         body: messageText,
         channelId: currentChannelId,
         username: user?.username || 'Usuario',
       })).unwrap();
-
-      setMessageText('');      
+      setMessageText('');
     } catch (error) {
       rollbar.error('Error sending messages', error);
-      toast.error(t('notifications.messageSendError'))
+      toast.error(t('notifications.messageSendError'));
     } finally {
       setSending(false);
     }
@@ -85,7 +85,7 @@ const ChatPage = () => {
       handleSubmit(e);
     }
   };
-  
+
   const handleRenameChannel = (channel) => {
     setSelectedChannel(channel);
     setShowRenameModal(true);
@@ -98,13 +98,16 @@ const ChatPage = () => {
 
   if (channelsLoading || messagesLoading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <div style={{
+        display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh',
+      }}
+      >
         <div>{t('common.loading')}</div>
       </div>
     );
   }
 
-  const currentChannel = channels.find(ch => ch.id === currentChannelId) || channels[0];
+  const currentChannel = channels.find((ch) => ch.id === currentChannelId) || channels[0];
 
   return (
     <div style={{ display: 'flex', height: 'calc(100vh - 60px)' }}>
@@ -113,53 +116,60 @@ const ChatPage = () => {
         borderRight: '1px solid #ccc',
         padding: '1rem',
         display: 'flex',
-        flexDirection: 'column'  
-      }}>
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        marginBottom: '1rem' 
-      }}>
-        <h3>Canales</h3>
-        <Button
-          variant="primary"
-          size="sm"
-          onClick={() => {            
-            setShowAddModal(true);
-          }}
+        flexDirection: 'column',
+      }}
+      >
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '1rem',
+        }}
         >
-          +
-        </Button>
+          <h3>{t('chat.channels')}</h3>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => setShowAddModal(true)}
+          >
+            +
+          </Button>
+        </div>
+
+        <ul style={{
+          listStyle: 'none', padding: 0, flex: 1, overflowY: 'auto',
+        }}
+        >
+          {channels.map((channel) => (
+            <ChannelItem
+              key={channel.id}
+              channel={channel}
+              isActive={channel.id === currentChannelId}
+              onRename={handleRenameChannel}
+              onDelete={handleDeleteChannel}
+            />
+          ))}
+        </ul>
       </div>
 
-      <ul style={{ listStyle: 'none', padding: 0, flex: 1, overflowY: 'auto' }}>
-        {channels.map((channel) => (
-          <ChannelItem
-            key={channel.id}
-            channel={channel}
-            isActive={channel.id === currentChannelId}
-            onRename={handleRenameChannel}
-            onDelete={handleDeleteChannel}
-          />
-        ))}
-      </ul>
-    </div>
-
-      {/* Área de Chat */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        {/* Header con nombre del canal */}
-        <div style={{padding: '1rem', borderBottom: '1px solid #ccc', backgroundColor: '#f5f5f5'}}>
-          <h2 style={{margin: 0}}>
-            # {channelsLoading ? t('chat.channels') : (currentChannel?.name || 'Canal')}
+        <div style={{
+          padding: '1rem',
+          borderBottom: '1px solid #ccc',
+          backgroundColor: '#f5f5f5',
+        }}
+        >
+          <h2 style={{ margin: 0 }}>
+            #
+            {' '}
+            {currentChannel?.name || 'Canal'}
           </h2>
         </div>
 
-        {/* Mensajes */}
         <div style={{ flex: 1, overflowY: 'auto', padding: '1rem' }}>
           {currentMessages.length === 0 ? (
-            <p style={{ color: '#999', textAlign: 'center', marginTop: '2rem'}}>
-              {t('chat.noMessages')}.
+            <p style={{ color: '#999', textAlign: 'center', marginTop: '2rem' }}>
+              {t('chat.noMessages')}
             </p>
           ) : (
             currentMessages.map((message) => (
@@ -176,24 +186,66 @@ const ChatPage = () => {
           )}
         </div>
 
-        {/* Formulario de envío */}
-        <form onSubmit={handleSubmit} style={{ padding: '1rem', borderTop: '1px solid #ccc', display: 'flex', gap: '0.5rem'}}>
-          <input type='text' name="body" id="message-input" value={messageText} aria-label="New message" onChange={(e)=> setMessageText(e.target.value)}
-            onKeyDown={handleKeyPress} placeholder={t('chat.messagePlaceholder')} disabled={sending} autoComplete="off"
-            style={{flex: 1, padding: '0.75rem', fontSize: '1rem', border: '1px solid #ccc', borderRadius: '4px', outline: 'none'}}
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            padding: '1rem', borderTop: '1px solid #ccc', display: 'flex', gap: '0.5rem',
+          }}
+        >
+          <input
+            type="text"
+            name="body"
+            id="message-input"
+            value={messageText}
+            aria-label={t('chat.newMessage')}
+            onChange={(e) => setMessageText(e.target.value)}
+            onKeyDown={handleKeyPress}
+            placeholder={t('chat.messagePlaceholder')}
+            disabled={sending}
+            autoComplete="off"
+            style={{
+              flex: 1,
+              padding: '0.75rem',
+              fontSize: '1rem',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              outline: 'none',
+            }}
           />
-          <button type='submit' aria-label="Send message" disabled={sending || !messageText.trim()}
-            style={{padding: '0.75rem 1.5rem', fontSize: '1rem', backgroundColor: sending || !messageText.trim() ? '#ccc' : '#0066cc',
-              color: 'white', border: 'none', borderRadius: '4px', cursor: sending || !messageText.trim() ? 'not-allowed' : 'pointer', fontWeight: '600'}}
+          <button
+            type="submit"
+            aria-label={t('chat.send')}
+            disabled={sending || !messageText.trim()}
+            style={{
+              padding: '0.75rem 1.5rem',
+              fontSize: '1rem',
+              backgroundColor: sending || !messageText.trim() ? '#ccc' : '#0066cc',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: sending || !messageText.trim() ? 'not-allowed' : 'pointer',
+              fontWeight: '600',
+            }}
           >
             {sending ? t('common.sending') : t('common.send')}
           </button>
         </form>
       </div>
 
-      <AddChannelModal show={showAddModal} onHide={() => setShowAddModal(false)}/>
-      <RenameChannelModal show={showRenameModal} onHide={() => setShowRenameModal(false)} channel={selectedChannel}/>
-      <DeleteChannelModal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} channel={selectedChannel}/>
+      <AddChannelModal
+        show={showAddModal}
+        onHide={() => setShowAddModal(false)}
+      />
+      <RenameChannelModal
+        show={showRenameModal}
+        onHide={() => setShowRenameModal(false)}
+        channel={selectedChannel}
+      />
+      <DeleteChannelModal
+        show={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+        channel={selectedChannel}
+      />
     </div>
   );
 };

@@ -1,9 +1,14 @@
 import { Dropdown } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { setCurrentChannel } from '../store/slices/channelsSlice';
-import { useTranslation } from "react-i18next";
 
-const ChannelItem = ({ channel, isActive, onRename, onDelete }) => {
+const ChannelItem = ({
+  channel,
+  isActive,
+  onRename,
+  onDelete,
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -12,27 +17,35 @@ const ChannelItem = ({ channel, isActive, onRename, onDelete }) => {
   };
 
   return (
-    <li style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: '0.5rem',
-      cursor: 'pointer',
-      fontWeight: isActive ? 'bold' : 'normal',
-      backgroundColor: isActive ? '#e0e0e0' : 'transparent',
-      borderRadius: '4px',
-      marginBottom: '0.25rem'
-    }}>
-      <div 
+    <li
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0.5rem',
+        cursor: 'pointer',
+        fontWeight: isActive ? 'bold' : 'normal',
+        backgroundColor: isActive ? '#e0e0e0' : 'transparent',
+        borderRadius: '4px',
+        marginBottom: '0.25rem',
+      }}
+    >
+      <div
+        role="button"
+        tabIndex={0}
         onClick={handleChannelClick}
+        onKeyDown={(e) => e.key === 'Enter' && handleChannelClick()}
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
         style={{
           flex: 1,
           overflow: 'hidden',
           textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap'
+          whiteSpace: 'nowrap',
         }}
       >
-        # {channel.name}
+        #
+        {' '}
+        {channel.name}
       </div>
 
       {channel.removable && (
@@ -40,20 +53,23 @@ const ChannelItem = ({ channel, isActive, onRename, onDelete }) => {
           <Dropdown.Toggle
             variant="link"
             size="sm"
-            aria-label='Manage channel'
+            aria-label={t('common.manage')}
             style={{
               padding: '0.25rem 0.5rem',
               color: '#666',
-              textDecoration: 'none'
+              textDecoration: 'none',
             }}
           >
-            Manage channel
+            {t('common.manage')}
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => onRename(channel)}>
               {t('common.rename')}
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => onDelete(channel)} className="text-danger">
+            <Dropdown.Item
+              onClick={() => onDelete(channel)}
+              className="text-danger"
+            >
               {t('common.delete')}
             </Dropdown.Item>
           </Dropdown.Menu>

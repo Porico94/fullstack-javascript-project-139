@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { renameChannel } from '../../store/slices/channelsSlice';
 import { toast } from 'react-toastify';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 import { useRollbar } from '@rollbar/react';
+import { renameChannel } from '../../store/slices/channelsSlice';
 
 const RenameChannelModal = ({ show, onHide, channel }) => {
   const inputRef = useRef(null);
@@ -12,14 +12,16 @@ const RenameChannelModal = ({ show, onHide, channel }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { channels, loading } = useSelector((state) => state.channels);
-  
+
   const [channelName, setChannelName] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if(show) {
+    if (show) {
       setError('');
-      if (channel) setChannelName(channel.name);
+      if (channel) {
+        setChannelName(channel.name);
+      }
 
       setTimeout(() => {
         inputRef.current?.select();
@@ -29,30 +31,30 @@ const RenameChannelModal = ({ show, onHide, channel }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!channelName.trim()) {
       setError(t('renameChannelModal.errors.nameEmpty'));
       return;
     }
-    
+
     const exists = channels.find(
-      ch => ch.id !== channel.id && ch.name.toLowerCase() === channelName.trim().toLowerCase()
+      (ch) => ch.id !== channel.id && ch.name.toLowerCase() === channelName.trim().toLowerCase(),
     );
-    
+
     if (exists) {
       setError(t('renameChannelModal.errors.nameExists'));
       return;
     }
-    
+
     try {
       await dispatch(renameChannel({ id: channel.id, name: channelName.trim() })).unwrap();
       toast.success(t('notifications.channelRenamed'));
       setError('');
       onHide();
     } catch (err) {
-      rollbar.error('Error al crear canal desde el modal', err, {
+      rollbar.error('Error al renombrar canal desde el modal', err, {
         triedName: channel.name,
-        location: 'RenameChannelModal'
+        location: 'RenameChannelModal',
       });
       toast.error(t('notifications.channelRenameError'));
       setError(t('renameChannelModal.errors.renameError'));
@@ -70,7 +72,6 @@ const RenameChannelModal = ({ show, onHide, channel }) => {
     <Modal
       show={show}
       onHide={onHide}
-      channel={channel}
       centered
       animation={false}
     >
@@ -102,7 +103,11 @@ const RenameChannelModal = ({ show, onHide, channel }) => {
         <Button variant="secondary" onClick={onHide} disabled={loading}>
           {t('common.cancel')}
         </Button>
-        <Button variant="primary" onClick={handleSubmit} disabled={loading || !channelName.trim()}>
+        <Button
+          variant="primary"
+          onClick={handleSubmit}
+          disabled={loading || !channelName.trim()}
+        >
           {loading ? t('common.renaming') : t('common.rename')}
         </Button>
       </Modal.Footer>

@@ -1,5 +1,6 @@
 {
   "common": {
+    "manage": "Gestionar canal",
     "username": "Nombre de usuario",
     "password": "Contraseña",
     "cancel": "Cancelar",

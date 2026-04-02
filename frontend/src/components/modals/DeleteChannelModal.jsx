@@ -1,9 +1,9 @@
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteChannel } from '../../store/slices/channelsSlice';
 import { toast } from 'react-toastify';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 import { useRollbar } from '@rollbar/react';
+import { deleteChannel } from '../../store/slices/channelsSlice';
 
 const DeleteChannelModal = ({ show, onHide, channel }) => {
   const rollbar = useRollbar();
@@ -17,11 +17,11 @@ const DeleteChannelModal = ({ show, onHide, channel }) => {
       toast.success(t('notifications.channelDeleted'));
       onHide();
     } catch (err) {
-      rollbar.error('Error al crear canal desde el modal', err, {
+      rollbar.error('Error al borrar canal desde el modal', err, {
         triedName: channel.name,
-        location: 'DeleteChannelModal'
+        location: 'DeleteChannelModal',
       });
-      toast.error(t('notifications.channelDeleteError'));      
+      toast.error(t('notifications.channelDeleteError'));
     }
   };
 
@@ -29,7 +29,6 @@ const DeleteChannelModal = ({ show, onHide, channel }) => {
     <Modal
       show={show}
       onHide={onHide}
-      channel={channel}
       centered
       animation={false}
     >

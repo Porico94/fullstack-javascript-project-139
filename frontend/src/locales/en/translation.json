@@ -1,5 +1,6 @@
 {
   "common": {    
+    "manage": "Manage channel",
     "username": "Username",
     "password": "Password",
     "cancel": "Cancel",
