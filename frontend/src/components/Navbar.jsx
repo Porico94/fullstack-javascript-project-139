@@ -5,7 +5,10 @@ import { useTranslation } from 'react-i18next';
 import AuthContext from '../contexts/AuthContext';
 
 const Navbar = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === 'en' ? 'es' : 'en');
+  };
   const { loggedIn, logout } = useContext(AuthContext);
 
   return (
@@ -31,14 +34,22 @@ const Navbar = () => {
         {t('navbar.chat')}
       </Link>
 
-      {loggedIn && (
-        <Button
-          variant="light"
-          onClick={logout}
-        >
-          {t('navbar.logout')}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <Button variant="outline-light" size="sm" onClick={toggleLanguage}>
+          🌐
+          {i18n.language === 'en' ? 'ES' : 'EN'}
         </Button>
-      )}
+
+        {loggedIn && (
+          <Button
+            variant="light"
+            size="sm"
+            onClick={logout}
+          >
+            {t('navbar.logout')}
+          </Button>
+        )}
+      </div>
     </nav>
   );
 };
